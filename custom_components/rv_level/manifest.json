@@ -1,0 +1,11 @@
+{
+  "domain": "rv_level",
+  "name": "RV Level",
+  "codeowners": ["@arnyminerz"],
+  "config_flow": true,
+  "documentation": "https://github.com/arnyminerz/ha-rv-level",
+  "integration_type": "helper",
+  "iot_class": "calculated",
+  "issue_tracker": "https://github.com/arnyminerz/ha-rv-level/issues",
+  "version": "1.0.0"
+}

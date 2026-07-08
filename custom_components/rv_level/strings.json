@@ -1,0 +1,63 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "RV Level: pitch & roll sensors",
+        "description": "Pick the sensors that report your vehicle's inclination. These are usually provided by a Bluetooth/BLE inclinometer or an ESPHome tilt sensor already integrated with Home Assistant.",
+        "data": {
+          "pitch_entity": "Pitch sensor",
+          "roll_entity": "Roll sensor"
+        },
+        "data_description": {
+          "pitch_entity": "Sensor reporting the front/rear tilt, in degrees. Positive should mean the front is low.",
+          "roll_entity": "Sensor reporting the left/right tilt, in degrees. Positive should mean the left side is low."
+        }
+      },
+      "vehicle": {
+        "title": "Vehicle dimensions",
+        "description": "Pick a base-vehicle preset to prefill the next step, or Custom to enter your own measurements.",
+        "data": {
+          "vehicle_preset": "Vehicle preset"
+        }
+      },
+      "dimensions": {
+        "title": "Confirm dimensions",
+        "description": "Wheelbase is the distance between the front and rear axle. Track width is the distance between the two wheels of the same axle. {preset_note}",
+        "data": {
+          "wheelbase": "Wheelbase",
+          "track_width": "Track width"
+        }
+      },
+      "margins": {
+        "title": "Leveling margins",
+        "description": "The vehicle is considered level when both pitch and roll are within these margins.",
+        "data": {
+          "pitch_margin": "Pitch margin",
+          "roll_margin": "Roll margin"
+        }
+      },
+      "chocks": {
+        "title": "Chocks / levelers",
+        "description": "Pick the chocks (levelers) you use, or Custom to enter your own heights.",
+        "data": {
+          "chock_preset": "Chock preset"
+        }
+      },
+      "chock_details": {
+        "title": "Chock details",
+        "description": "How many chocks do you have available at once? {preset_note}",
+        "data": {
+          "chock_count": "Number of chocks available",
+          "chock_steps": "Chock heights (cm, comma separated)"
+        }
+      }
+    },
+    "error": {
+      "invalid_chock_steps": "Enter one or more positive numbers separated by commas, e.g. 4, 7, 10."
+    },
+    "abort": {
+      "already_configured": "This pitch/roll sensor pair is already configured.",
+      "reconfigure_successful": "RV Level was reconfigured successfully."
+    }
+  }
+}

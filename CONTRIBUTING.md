@@ -1,0 +1,108 @@
+# Contributing
+
+Thanks for considering a contribution! This is a small, community-maintained
+integration, so the most valuable contributions by far are **new or
+corrected vehicle and chock presets** — you don't need to write any Python
+logic for those, just edit a dataclass table.
+
+## Adding or correcting a vehicle preset
+
+Vehicle presets live in
+[`custom_components/rv_level/presets.py`](custom_components/rv_level/presets.py),
+in the `VEHICLE_PRESETS` dict:
+
+```python
+"ducato_maxi": VehiclePreset(
+    name="Fiat Ducato / Peugeot Boxer / Citroën Jumper (Maxi, 4035 mm)",
+    wheelbase_cm=403.5,
+    track_width_cm=198.0,
+),
+```
+
+To add a new one:
+
+1. Pick a short, stable `snake_case` key (used internally, never shown to
+   users — once released, avoid renaming it, since it would silently reset
+   anyone using it back to their last-confirmed dimensions on next reconfigure).
+2. `name` is what users see in the dropdown. Include enough detail to
+   disambiguate wheelbase/body variants (many base vans are sold under
+   several badges with the same chassis, and manufacturers offer multiple
+   wheelbase lengths).
+3. `wheelbase_cm`: the distance between the center of a front wheel and the
+   center of the rear wheel on the same side, in **centimeters**.
+4. `track_width_cm`: the distance between the centers of the two wheels on
+   the same axle, in **centimeters**. Front and rear track width often
+   differ slightly on the same vehicle — prefer the **front** axle figure,
+   since that's what typically determines how the van rocks side to side
+   once the front is on chocks.
+5. Optionally set `note` for anything a user should know before trusting the
+   preset (e.g. "rear track is narrower — treat this as approximate").
+
+Please **cite your source** in the pull request description (manufacturer
+spec sheet, forum measurement thread, your own tape-measure reading, etc.) —
+we'd rather have fewer presets that are trustworthy than many that aren't.
+
+### Correcting an existing preset
+
+If you have a more accurate figure (e.g. from official manufacturer specs)
+for a preset already in the table, please open a PR updating the numbers and
+explain the discrepancy and your source. Several current entries are
+best-effort approximations pending exactly this kind of correction.
+
+## Adding or correcting a chock/leveler preset
+
+Chock presets live in the same file, in the `CHOCK_PRESETS` dict:
+
+```python
+"thule_leveler": ChockPreset(
+    name="Thule Leveler",
+    steps_cm=(4.5, 9.0),
+    default_count=2,
+    note="Approximate — interlocking wedge set that can be stacked to roughly "
+    "double height. Please verify against your exact set.",
+),
+```
+
+- `steps_cm`: every distinct height the chock/leveler can achieve, in
+  centimeters, ascending. For a set of ramps sold at fixed heights (like the
+  Fiamma Kit Level Up), this is just each ramp's height. For a stackable
+  wedge, include every achievable *combined* height, not just a single
+  wedge's height.
+- `default_count`: how many of this chock a user typically owns — this is
+  only a prefill; users can always override the count in their own config.
+- `note`: use this for anything users should double check (approximate
+  figures, assumptions about how stacking works, etc.).
+
+## Improving the leveling algorithm
+
+The math lives in
+[`custom_components/rv_level/solver.py`](custom_components/rv_level/solver.py)
+and is deliberately documented in-depth at the top of the file and around the
+trickier steps (nearest-chock selection under a limited chock count, and the
+residual-tilt calculation used for the "levelable" check). If you think the
+model is wrong or can be improved, please:
+
+1. Read that module's docstring first — it explains the rigid-plane
+   assumption the whole thing is built on.
+2. Add/adjust a test in [`tests/test_solver.py`](tests/test_solver.py)
+   demonstrating the scenario you're fixing or improving, in addition to
+   your fix.
+
+## Running tests
+
+```bash
+pip install pytest
+pytest tests/
+```
+
+`tests/test_solver.py` only imports `solver.py`, which has no Home Assistant
+dependency, so this runs fast with no extra setup.
+
+## Config flow / entity changes
+
+If you're changing `config_flow.py`, `coordinator.py`, or the entity
+platforms, please also update `strings.json` **and**
+`translations/en.json` together (they must stay in sync — Home Assistant
+reads `strings.json` as the source of truth for the default English
+translation, but custom integrations must ship `translations/en.json`
+explicitly).
