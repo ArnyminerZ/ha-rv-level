@@ -3,6 +3,5 @@
   "content_in_root": false,
   "render_readme": true,
   "zip_release": false,
-  "homeassistant": "2024.8.0",
-  "filename": "rv-level-cards.js"
+  "homeassistant": "2024.8.0"
 }
