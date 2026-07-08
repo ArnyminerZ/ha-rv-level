@@ -120,6 +120,36 @@ for your actual IDs):
 | `binary_sensor.rv_level_level` | On when the vehicle is level right now, no chocks needed |
 | `binary_sensor.rv_level_levelable` | On when your configured chocks can bring it within margins |
 
+## Recorder / history
+
+All of these sensors are derived values, recomputed on every pitch/roll
+update — there's little value in keeping their history, and it adds
+unnecessary rows to your recorder database. Consider excluding them (and
+your raw pitch/roll sensors) in `configuration.yaml`:
+
+```yaml
+recorder:
+  exclude:
+    entities:
+    - sensor.van_pitch
+    - sensor.van_roll
+    # Values provided by the RV Level Integration
+    - sensor.rv_level_bubble_position
+    - sensor.rv_level_front_left_chock
+    - sensor.rv_level_front_left_lift
+    - sensor.rv_level_front_right_chock
+    - sensor.rv_level_front_right_lift
+    - sensor.rv_level_rear_left_chock
+    - sensor.rv_level_rear_left_lift
+    - sensor.rv_level_rear_right_chock
+    - sensor.rv_level_rear_right_lift
+    - sensor.rv_level_wheels_to_lift
+```
+
+Replace `sensor.van_pitch` / `sensor.van_roll` with your own inclinometer
+entities, and adjust the `rv_level_*` IDs if your device isn't named the
+default "RV Level".
+
 ## Dashboard extras
 
 A bubble-level card and a per-wheel chock display card are provided as a
