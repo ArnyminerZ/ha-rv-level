@@ -10,7 +10,8 @@
       "rear_left_chock": { "name": "Falca posterior esquerra" },
       "rear_right_chock": { "name": "Falca posterior dreta" },
       "wheels_to_lift": { "name": "Rodes a aixecar" },
-      "bubble_position": { "name": "Posició de la bombolla" }
+      "pitch": { "name": "Cabeceig" },
+      "roll": { "name": "Balanceig" }
     },
     "binary_sensor": {
       "level": { "name": "Anivellat" },

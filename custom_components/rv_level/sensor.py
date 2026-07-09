@@ -10,7 +10,6 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from .const import CONF_PITCH_MARGIN, CONF_ROLL_MARGIN, CORNERS, DOMAIN
 from .coordinator import RVLevelCoordinator
 from .entity import RVLevelEntity
-from .solver import DEFAULT_BUBBLE_MAX_ANGLE
 
 
 async def async_setup_entry(
@@ -24,7 +23,8 @@ async def async_setup_entry(
         entities.append(RVLevelLiftSensor(coordinator, entry, corner))
         entities.append(RVLevelChockSensor(coordinator, entry, corner))
     entities.append(RVLevelWheelsToLiftSensor(coordinator, entry))
-    entities.append(RVLevelBubbleSensor(coordinator, entry))
+    entities.append(RVLevelPitchSensor(coordinator, entry))
+    entities.append(RVLevelRollSensor(coordinator, entry))
 
     async_add_entities(entities)
 
@@ -87,32 +87,51 @@ class RVLevelWheelsToLiftSensor(RVLevelEntity, SensorEntity):
         return self.coordinator.data.wheels_to_lift
 
 
-class RVLevelBubbleSensor(RVLevelEntity, SensorEntity):
-    """Bubble-level position, exposed as attributes for dashboard cards."""
+class RVLevelPitchSensor(RVLevelEntity, SensorEntity):
+    """Current pitch reading, passed through from the configured pitch sensor."""
 
-    _attr_icon = "mdi:circle-slice-8"
-    _attr_translation_key = "bubble_position"
+    _attr_native_unit_of_measurement = "°"
+    _attr_icon = "mdi:angle-acute"
+    _attr_suggested_display_precision = 1
+    _attr_translation_key = "pitch"
 
     def __init__(self, coordinator: RVLevelCoordinator, entry: ConfigEntry) -> None:
         super().__init__(coordinator, entry)
-        self._attr_unique_id = f"{entry.entry_id}_bubble"
-        self._object_id_suffix = "bubble_position"
+        self._attr_unique_id = f"{entry.entry_id}_pitch"
+        self._object_id_suffix = "pitch"
 
     @property
-    def native_value(self) -> str:
-        data = self.coordinator.data
-        return f"{data.bubble_x},{data.bubble_y}"
+    def native_value(self) -> float:
+        return self.coordinator.data.pitch
 
     @property
     def extra_state_attributes(self) -> dict[str, float]:
-        data = self.coordinator.data
-        entry_data = self._entry.data
         return {
-            "x": data.bubble_x,
-            "y": data.bubble_y,
-            "residual_pitch": data.residual_pitch,
-            "residual_roll": data.residual_roll,
-            "pitch_margin": entry_data[CONF_PITCH_MARGIN],
-            "roll_margin": entry_data[CONF_ROLL_MARGIN],
-            "bubble_max_angle": DEFAULT_BUBBLE_MAX_ANGLE,
+            "margin": self._entry.data[CONF_PITCH_MARGIN],
+            "residual": self.coordinator.data.residual_pitch,
+        }
+
+
+class RVLevelRollSensor(RVLevelEntity, SensorEntity):
+    """Current roll reading, passed through from the configured roll sensor."""
+
+    _attr_native_unit_of_measurement = "°"
+    _attr_icon = "mdi:angle-acute"
+    _attr_suggested_display_precision = 1
+    _attr_translation_key = "roll"
+
+    def __init__(self, coordinator: RVLevelCoordinator, entry: ConfigEntry) -> None:
+        super().__init__(coordinator, entry)
+        self._attr_unique_id = f"{entry.entry_id}_roll"
+        self._object_id_suffix = "roll"
+
+    @property
+    def native_value(self) -> float:
+        return self.coordinator.data.roll
+
+    @property
+    def extra_state_attributes(self) -> dict[str, float]:
+        return {
+            "margin": self._entry.data[CONF_ROLL_MARGIN],
+            "residual": self.coordinator.data.residual_roll,
         }

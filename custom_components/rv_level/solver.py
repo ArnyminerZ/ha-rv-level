@@ -31,13 +31,13 @@ REAR_LEFT = "rear_left"
 REAR_RIGHT = "rear_right"
 CORNERS = (FRONT_LEFT, FRONT_RIGHT, REAR_LEFT, REAR_RIGHT)
 
-DEFAULT_BUBBLE_MAX_ANGLE = 6.0
-
 
 @dataclass
 class LevelResult:
     """Result of a single solve() call."""
 
+    pitch: float
+    roll: float
     lift_cm: dict[str, float]
     chock_height_cm: dict[str, float]
     chock_index: dict[str, int]
@@ -46,8 +46,6 @@ class LevelResult:
     levelable: bool
     residual_pitch: float
     residual_roll: float
-    bubble_x: float
-    bubble_y: float
 
 
 def _nearest_level(height: float, steps: list[float]) -> tuple[int, float]:
@@ -75,7 +73,6 @@ def solve(
     roll_margin: float,
     chock_steps_cm: list[float],
     chock_count: int,
-    bubble_max_angle: float = DEFAULT_BUBBLE_MAX_ANGLE,
 ) -> LevelResult:
     """Compute per-corner lift/chock choices for the given pitch/roll reading."""
     steps = sorted(s for s in chock_steps_cm if s > 0)
@@ -142,11 +139,9 @@ def solve(
 
     levelable = residual_pitch <= pitch_margin and residual_roll <= roll_margin
 
-    max_angle = bubble_max_angle or DEFAULT_BUBBLE_MAX_ANGLE
-    bubble_x = max(min(roll / max_angle, 1.0), -1.0)
-    bubble_y = max(min(pitch / max_angle, 1.0), -1.0)
-
     return LevelResult(
+        pitch=round(pitch, 2),
+        roll=round(roll, 2),
         lift_cm={corner: round(ideal_lift[corner], 1) for corner in CORNERS},
         chock_height_cm={corner: round(chock_height[corner], 1) for corner in CORNERS},
         chock_index=chock_index,
@@ -155,6 +150,4 @@ def solve(
         levelable=levelable,
         residual_pitch=round(residual_pitch, 2),
         residual_roll=round(residual_roll, 2),
-        bubble_x=round(bubble_x, 3),
-        bubble_y=round(bubble_y, 3),
     )

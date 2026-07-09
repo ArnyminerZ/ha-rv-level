@@ -129,7 +129,8 @@ keyed by [two-letter language code](https://en.wikipedia.org/wiki/List_of_ISO_63
       "rear_left_chock": { "name": "Rear left chock" },
       "rear_right_chock": { "name": "Rear right chock" },
       "wheels_to_lift": { "name": "Wheels to lift" },
-      "bubble_position": { "name": "Bubble position" }
+      "pitch": { "name": "Pitch" },
+      "roll": { "name": "Roll" }
     },
     "binary_sensor": {
       "level": { "name": "Level" },

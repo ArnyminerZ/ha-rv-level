@@ -62,7 +62,7 @@ def test_signs_pick_the_correct_low_corners():
     assert flipped.lift_cm["front_left"] == 0
 
 
-def test_bubble_position_tracks_pitch_and_roll_sign():
-    result = solve(3.0, -3.0, WHEELBASE, TRACK_WIDTH, MARGIN, MARGIN, STEPS, 2, bubble_max_angle=6.0)
-    assert result.bubble_y > 0
-    assert result.bubble_x < 0
+def test_result_reports_the_raw_pitch_and_roll_it_was_given():
+    result = solve(3.0, -3.0, WHEELBASE, TRACK_WIDTH, MARGIN, MARGIN, STEPS, 2)
+    assert result.pitch == 3.0
+    assert result.roll == -3.0

@@ -116,12 +116,13 @@ for your actual IDs):
 | `sensor.rv_level_front_left_lift` (+ `_front_right`, `_rear_left`, `_rear_right`) | Raw centimeters that wheel needs to be raised |
 | `sensor.rv_level_front_left_chock` (+ other corners) | Height of the chock to place under that wheel (0 = none), with a `chock_index` attribute |
 | `sensor.rv_level_wheels_to_lift` | How many wheels currently need a chock |
-| `sensor.rv_level_bubble_position` | Normalized bubble-level position/margins as attributes, for dashboard cards |
+| `sensor.rv_level_pitch` | Current pitch, in degrees, with `margin` and `residual` attributes |
+| `sensor.rv_level_roll` | Current roll, in degrees, with `margin` and `residual` attributes |
 | `binary_sensor.rv_level_level` | On when the vehicle is level right now, no chocks needed |
 | `binary_sensor.rv_level_levelable` | On when your configured chocks can bring it within margins |
 
 Entity IDs are always English and never change with your Home Assistant
-language (so the recorder-exclude list above, dashboard YAML, automations,
+language (so the recorder-exclude list below, dashboard YAML, automations,
 etc. all keep working regardless of language) — only the *display* name
 shown in the UI is translated. See [Languages](#languages) below.
 
@@ -139,15 +140,16 @@ recorder:
     - sensor.van_pitch
     - sensor.van_roll
     # Values provided by the RV Level Integration
-    - sensor.rv_level_bubble_position
     - sensor.rv_level_front_left_chock
     - sensor.rv_level_front_left_lift
     - sensor.rv_level_front_right_chock
     - sensor.rv_level_front_right_lift
+    - sensor.rv_level_pitch
     - sensor.rv_level_rear_left_chock
     - sensor.rv_level_rear_left_lift
     - sensor.rv_level_rear_right_chock
     - sensor.rv_level_rear_right_lift
+    - sensor.rv_level_roll
     - sensor.rv_level_wheels_to_lift
 ```
 
@@ -157,15 +159,10 @@ default "RV Level".
 
 ## Custom Cards
 
-I provide this repository: https://github.com/ArnyminerZ/ha-rv-level-cards
-if you want some custom cards to display the values.
-
-## Dashboard extras
-
-A bubble-level card and a per-wheel chock display card are provided as a
-*starting point* in [`lovelace/`](lovelace/) — these can't ship automatically
-through an "integration" HACS repository, so copy/adapt them by hand. See
-[`lovelace/README.md`](lovelace/README.md) for prerequisites and setup.
+I provide this repository: https://github.com/ArnyminerZ/ha-rv-level-cards —
+a bubble-level card and a top-down chock/lift view card, with no
+dependencies beyond Home Assistant itself, install it via HACS if you want
+some custom cards to display the values.
 
 ## Languages
 

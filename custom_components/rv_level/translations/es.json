@@ -10,7 +10,8 @@
       "rear_left_chock": { "name": "Calzo trasero izquierdo" },
       "rear_right_chock": { "name": "Calzo trasero derecho" },
       "wheels_to_lift": { "name": "Ruedas a levantar" },
-      "bubble_position": { "name": "Posición de la burbuja" }
+      "pitch": { "name": "Cabeceo" },
+      "roll": { "name": "Balanceo" }
     },
     "binary_sensor": {
       "level": { "name": "Nivelado" },
