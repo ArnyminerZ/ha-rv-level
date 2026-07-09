@@ -1,0 +1,20 @@
+{
+  "entity": {
+    "sensor": {
+      "front_left_lift": { "name": "Elevació davantera esquerra" },
+      "front_right_lift": { "name": "Elevació davantera dreta" },
+      "rear_left_lift": { "name": "Elevació posterior esquerra" },
+      "rear_right_lift": { "name": "Elevació posterior dreta" },
+      "front_left_chock": { "name": "Falca davantera esquerra" },
+      "front_right_chock": { "name": "Falca davantera dreta" },
+      "rear_left_chock": { "name": "Falca posterior esquerra" },
+      "rear_right_chock": { "name": "Falca posterior dreta" },
+      "wheels_to_lift": { "name": "Rodes a aixecar" },
+      "bubble_position": { "name": "Posició de la bombolla" }
+    },
+    "binary_sensor": {
+      "level": { "name": "Anivellat" },
+      "levelable": { "name": "Anivellable" }
+    }
+  }
+}

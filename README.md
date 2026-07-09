@@ -120,6 +120,11 @@ for your actual IDs):
 | `binary_sensor.rv_level_level` | On when the vehicle is level right now, no chocks needed |
 | `binary_sensor.rv_level_levelable` | On when your configured chocks can bring it within margins |
 
+Entity IDs are always English and never change with your Home Assistant
+language (so the recorder-exclude list above, dashboard YAML, automations,
+etc. all keep working regardless of language) — only the *display* name
+shown in the UI is translated. See [Languages](#languages) below.
+
 ## Recorder / history
 
 All of these sensors are derived values, recomputed on every pitch/roll
@@ -161,6 +166,13 @@ A bubble-level card and a per-wheel chock display card are provided as a
 *starting point* in [`lovelace/`](lovelace/) — these can't ship automatically
 through an "integration" HACS repository, so copy/adapt them by hand. See
 [`lovelace/README.md`](lovelace/README.md) for prerequisites and setup.
+
+## Languages
+
+The entities' display names (not their entity IDs — see
+[Entities created](#entities-created)) are available in English, Catalan,
+and Spanish, following your Home Assistant instance's configured language.
+Want to add another language? See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Contributing
 

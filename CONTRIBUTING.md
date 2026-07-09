@@ -106,3 +106,59 @@ platforms, please also update `strings.json` **and**
 reads `strings.json` as the source of truth for the default English
 translation, but custom integrations must ship `translations/en.json`
 explicitly).
+
+## Adding an entity name translation
+
+Entity **display names** (not entity IDs, see below) are translated the
+standard Home Assistant way: `custom_components/rv_level/translations/<lang>.json`,
+keyed by [two-letter language code](https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes)
+(`en`, `ca`, `es`, ...). To add a new language, create
+`translations/<lang>.json` with just the `entity` section, translating every
+`name` value:
+
+```json
+{
+  "entity": {
+    "sensor": {
+      "front_left_lift": { "name": "Front left lift" },
+      "front_right_lift": { "name": "Front right lift" },
+      "rear_left_lift": { "name": "Rear left lift" },
+      "rear_right_lift": { "name": "Rear right lift" },
+      "front_left_chock": { "name": "Front left chock" },
+      "front_right_chock": { "name": "Front right chock" },
+      "rear_left_chock": { "name": "Rear left chock" },
+      "rear_right_chock": { "name": "Rear right chock" },
+      "wheels_to_lift": { "name": "Wheels to lift" },
+      "bubble_position": { "name": "Bubble position" }
+    },
+    "binary_sensor": {
+      "level": { "name": "Level" },
+      "levelable": { "name": "Levelable" }
+    }
+  }
+}
+```
+
+- Only translate the `name` **values** — the outer keys (`front_left_lift`,
+  `level`, ...) are translation keys the code looks up by, and must stay
+  exactly as above.
+- No need to copy the `config` (config flow) section into a new
+  `translations/<lang>.json` — Home Assistant falls back to English
+  (`strings.json`) for anything a translation file doesn't include, so a
+  partial translation (entity names only) is perfectly fine.
+- No Python or JSON schema changes needed beyond the new file — it's picked
+  up automatically.
+
+### Why entity IDs never change with the language
+
+You may notice the entity's *name* translates but its entity_id (e.g.
+`sensor.rv_level_front_left_lift`) doesn't, even for languages — like
+Catalan and Spanish — that Home Assistant would otherwise use to generate
+entity IDs for brand-new entities. This integration deliberately overrides
+`suggested_object_id` in [`entity.py`](custom_components/rv_level/entity.py)
+to pin every entity's generated ID to a fixed English suffix, independent of
+the display name/translation. This matters because dashboard cards, the
+recorder-exclude example in the README, and any automations you write all
+key off those fixed suffixes — if you add a new entity, please set
+`self._object_id_suffix` in its `__init__` the same way the existing ones
+do, so it gets the same guarantee.

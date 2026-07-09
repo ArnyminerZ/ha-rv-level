@@ -1,0 +1,20 @@
+{
+  "entity": {
+    "sensor": {
+      "front_left_lift": { "name": "Elevación delantera izquierda" },
+      "front_right_lift": { "name": "Elevación delantera derecha" },
+      "rear_left_lift": { "name": "Elevación trasera izquierda" },
+      "rear_right_lift": { "name": "Elevación trasera derecha" },
+      "front_left_chock": { "name": "Calzo delantero izquierdo" },
+      "front_right_chock": { "name": "Calzo delantero derecho" },
+      "rear_left_chock": { "name": "Calzo trasero izquierdo" },
+      "rear_right_chock": { "name": "Calzo trasero derecho" },
+      "wheels_to_lift": { "name": "Ruedas a levantar" },
+      "bubble_position": { "name": "Posición de la burbuja" }
+    },
+    "binary_sensor": {
+      "level": { "name": "Nivelado" },
+      "levelable": { "name": "Nivelable" }
+    }
+  }
+}

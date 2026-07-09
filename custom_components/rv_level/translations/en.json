@@ -59,5 +59,23 @@
       "already_configured": "This pitch/roll sensor pair is already configured.",
       "reconfigure_successful": "RV Level was reconfigured successfully."
     }
+  },
+  "entity": {
+    "sensor": {
+      "front_left_lift": { "name": "Front left lift" },
+      "front_right_lift": { "name": "Front right lift" },
+      "rear_left_lift": { "name": "Rear left lift" },
+      "rear_right_lift": { "name": "Rear right lift" },
+      "front_left_chock": { "name": "Front left chock" },
+      "front_right_chock": { "name": "Front right chock" },
+      "rear_left_chock": { "name": "Rear left chock" },
+      "rear_right_chock": { "name": "Rear right chock" },
+      "wheels_to_lift": { "name": "Wheels to lift" },
+      "bubble_position": { "name": "Bubble position" }
+    },
+    "binary_sensor": {
+      "level": { "name": "Level" },
+      "levelable": { "name": "Levelable" }
+    }
   }
 }

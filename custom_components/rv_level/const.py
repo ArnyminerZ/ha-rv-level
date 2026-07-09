@@ -35,9 +35,4 @@ DEFAULT_CHOCK_COUNT = 2
 
 # --- Corners ------------------------------------------------------------
 
-CORNER_NAMES = {
-    "front_left": "Front left",
-    "front_right": "Front right",
-    "rear_left": "Rear left",
-    "rear_right": "Rear right",
-}
+CORNERS = ("front_left", "front_right", "rear_left", "rear_right")
