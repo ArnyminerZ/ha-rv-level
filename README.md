@@ -150,6 +150,11 @@ Replace `sensor.van_pitch` / `sensor.van_roll` with your own inclinometer
 entities, and adjust the `rv_level_*` IDs if your device isn't named the
 default "RV Level".
 
+## Custom Cards
+
+I provide this repository: https://github.com/ArnyminerZ/ha-rv-level-cards
+if you want some custom cards to display the values.
+
 ## Dashboard extras
 
 A bubble-level card and a per-wheel chock display card are provided as a
